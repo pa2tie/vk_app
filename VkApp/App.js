@@ -12,6 +12,8 @@ import HomeScreen from "./src/screens/HomeScreen/HomeScreen";
 import Panel from "./src/screens/HomeScreen/Panel/Panel";
 import Logo from "./src/screens/HomeScreen/Logo/Logo";
 import CustomHeaderText from "./src/screens/HomeScreen/CustomHeaderText/CustomHeaderText";
+import CustomTextInput from "./src/screens/HomeScreen/CustomTextInput/CustomTextInput";
+import CustomButton from "./src/screens/HomeScreen/CustomButton/CustomButton";
 
 const instructions = Platform.select({
   ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",
@@ -28,8 +30,9 @@ export default class App extends Component<Props> {
         <Logo />
         <Panel>
           <CustomHeaderText style={styles.welcome}>Log In</CustomHeaderText>
-          <Text style={styles.instructions}>To get started, edit App.js</Text>
-          <Text style={styles.instructions}>{instructions}</Text>
+          <CustomTextInput placeholder="E-Mail" />
+          <CustomTextInput placeholder="Password" />
+          <CustomButton>Login</CustomButton>
         </Panel>
       </HomeScreen>
     );

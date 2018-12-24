@@ -15,7 +15,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "#262626",
-    opacity: 0.8
+    opacity: 0.8,
+    marginBottom: 30
   }
 });
 
