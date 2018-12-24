@@ -9,32 +9,23 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import HomeScreen from "./src/screens/HomeScreen/HomeScreen";
-import Panel from "./src/screens/HomeScreen/Panel/Panel";
 import Logo from "./src/screens/HomeScreen/Logo/Logo";
-import CustomHeaderText from "./src/screens/HomeScreen/CustomHeaderText/CustomHeaderText";
-import CustomTextInput from "./src/screens/HomeScreen/CustomTextInput/CustomTextInput";
-import CustomButton from "./src/screens/HomeScreen/CustomButton/CustomButton";
+import LoginForm from "./src/screens/HomeScreen/LoginForm/LoginForm";
+import stores from "./src/stores";
+import { Provider } from "mobx-react";
+import { StackNavigator } from "react-navigation";
+import Profile from "./src/screens/HomeScreen/Profile/Profile";
 
-const instructions = Platform.select({
-  ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",
-  android:
-    "Double tap R on your keyboard to reload,\n" +
-    "Shake or press menu button for dev menu"
-});
-
-type Props = {};
-export default class App extends Component<Props> {
+export default class App extends Component {
   render() {
     return (
-      <HomeScreen>
-        <Logo />
-        <Panel>
-          <CustomHeaderText style={styles.welcome}>Log In</CustomHeaderText>
-          <CustomTextInput placeholder="E-Mail" />
-          <CustomTextInput placeholder="Password" />
-          <CustomButton>Login</CustomButton>
-        </Panel>
-      </HomeScreen>
+      <Provider {...stores}>
+        <HomeScreen>
+          <Logo />
+          <LoginForm />
+          {/* <Profile /> */}
+        </HomeScreen>
+      </Provider>
     );
   }
 }
