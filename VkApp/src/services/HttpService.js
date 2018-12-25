@@ -1,13 +1,18 @@
 import axios from "axios";
 
 async function postRequest({ url, payload }) {
-  axios
+  return axios
     .post(url, payload)
     .then(res => {
-      return res;
+      return res.data;
     })
     .catch(error => {
-      return error;
+      let res = { error: null };
+      if (error.response) {
+        res = error.response.data;
+        res["status"] = error.response.status;
+      }
+      return Promise.reject(res);
     });
 }
 

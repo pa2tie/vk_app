@@ -21,8 +21,14 @@ import Logo from "../Logo/Logo";
 @observer
 export default class LoginForm extends Component {
   handleSubmit = async e => {
-    e.preventDefault();
-    navigation.navigate("Profile");
+    try {
+      const result = await this.props.mercuryStore.loginRequest();
+      this.props.mercuryStore.setUserName(result["name"]);
+      this.props.mercuryStore.setPhotoUrl(result["photoUrl"]);
+      this.props.navigation.navigate("Profile");
+    } catch (response) {
+      console.log(response);
+    }
   };
 
   render() {
@@ -41,6 +47,7 @@ export default class LoginForm extends Component {
             onChangeText={text => mercuryStore.setPassword(text)}
             value={mercuryStore.password}
             placeholder="Password"
+            secureTextEntry
           />
           <CustomButton onPress={this.handleSubmit}>Login</CustomButton>
         </Panel>

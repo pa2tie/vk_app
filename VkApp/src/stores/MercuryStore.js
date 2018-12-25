@@ -4,7 +4,7 @@ import { postRequest } from "../services/HttpService";
 export default class MercuryStore {
   @observable email = "";
   @observable password = "";
-  @observable userImageUrl = "";
+  @observable photoUrl = "";
   @observable userName = "";
 
   @action setEmail(email) {
@@ -15,8 +15,8 @@ export default class MercuryStore {
     this.password = password;
   }
 
-  @action setUserImageUrl(userImageUrl) {
-    this.userImageUrl = userImageUrl;
+  @action setPhotoUrl(photoUrl) {
+    this.photoUrl = photoUrl;
   }
 
   @action setUserName(userName) {
@@ -25,6 +25,10 @@ export default class MercuryStore {
 
   async loginRequest() {
     const url = "https://us-central1-mercdev-academy.cloudfunctions.net/login";
-    return postRequest(url, { email: this.email, password: this.password });
+    const payload = {
+      email: this.email,
+      password: this.password
+    };
+    return postRequest({ url, payload });
   }
 }
