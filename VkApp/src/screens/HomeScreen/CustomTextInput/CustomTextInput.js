@@ -13,6 +13,15 @@ import styled, { css } from "styled-components/native";
 
 const Container = styled.View`
   width: 100%;
+  margin-bottom: 24px;
+  ${props =>
+    !props.valid &&
+    css`
+      border-color: #ed4159;
+      border-width: 1px;
+      border-radius: 4px;
+      color: #ed4159;
+    `}
 `;
 
 const Input = styled.TextInput`
@@ -20,7 +29,6 @@ const Input = styled.TextInput`
   background-color: #f1f1f1;
   border-radius: 4px;
   padding: 14px 16px;
-  margin-bottom: 24px;
   width: 100%;
 
   opacity: 0.8;
@@ -38,9 +46,9 @@ const Input = styled.TextInput`
 
 export default class CustomTextInput extends Component {
   render() {
-    const { ...otherProps } = this.props;
+    const { valid = true, ...otherProps } = this.props;
     return (
-      <Container>
+      <Container valid={valid}>
         <Input {...otherProps} />
       </Container>
     );
