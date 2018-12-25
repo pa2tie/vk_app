@@ -1,4 +1,5 @@
 import { observable, action } from "mobx";
+import { postRequest } from "../services/HttpService";
 
 export default class MercuryStore {
   @observable email = "";
@@ -24,5 +25,6 @@ export default class MercuryStore {
 
   async loginRequest() {
     const url = "https://us-central1-mercdev-academy.cloudfunctions.net/login";
+    return postRequest(url, { email: this.email, password: this.password });
   }
 }
