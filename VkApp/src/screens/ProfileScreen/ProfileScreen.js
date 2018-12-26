@@ -1,21 +1,12 @@
 import React, { Component } from "react";
-import {
-  AppRegistry,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ImageBackground,
-  TextInput
-} from "react-native";
-import Panel from "../Panel/Panel";
-import CustomHeaderText from "../CustomHeaderText/CustomHeaderText";
-import CustomButton from "../CustomButton/CustomButton";
+import { AppRegistry, Image } from "react-native";
 import { inject, observer } from "mobx-react";
-import HomeScreen from "../HomeScreen";
-import Logo from "../Logo/Logo";
 import styled from "styled-components/native";
+import Panel from "../../components/Panel/Panel";
+import CustomHeaderText from "../../components/CustomHeaderText/CustomHeaderText";
+import CustomButton from "../../components/CustomButton/CustomButton";
+import BackgroundImage from "../../components/BackgroundImage/BackgroundImage";
+import Logo from "../../components/Logo/Logo";
 
 const RoundImage = styled.Image`
   border-radius: 500;
@@ -26,24 +17,24 @@ const RoundImage = styled.Image`
 
 @inject("mercuryStore")
 @observer
-export default class Profile extends Component {
+export default class ProfileScreen extends Component {
   logout = e => {
     e.preventDefault();
-    this.props.navigation.navigate("LoginForm");
+    this.props.navigation.navigate("Login");
   };
   render() {
     const { mercuryStore, ...otherProps } = this.props;
     return (
-      <HomeScreen>
+      <BackgroundImage>
         <Logo />
         <Panel>
           <RoundImage source={{ uri: mercuryStore.photoUrl }} />
           <CustomHeaderText>{mercuryStore.userName}</CustomHeaderText>
           <CustomButton onPress={this.logout}>Logout</CustomButton>
         </Panel>
-      </HomeScreen>
+      </BackgroundImage>
     );
   }
 }
 
-AppRegistry.registerComponent("Profile", () => Profile);
+AppRegistry.registerComponent("ProfileScreen", () => ProfileScreen);

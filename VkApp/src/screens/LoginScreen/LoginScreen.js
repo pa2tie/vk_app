@@ -1,26 +1,17 @@
 import React, { Component } from "react";
-import {
-  AppRegistry,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ImageBackground,
-  TextInput
-} from "react-native";
+import { AppRegistry } from "react-native";
 import { inject, observer } from "mobx-react";
-import Panel from "../Panel/Panel";
-import CustomHeaderText from "../CustomHeaderText/CustomHeaderText";
-import CustomTextInput from "../CustomTextInput/CustomTextInput";
-import CustomButton from "../CustomButton/CustomButton";
-import HomeScreen from "../HomeScreen";
-import Logo from "../Logo/Logo";
-import ErrorMessage from "../../../components/ErrorMessage/ErrorMessage";
+import Panel from "../../components/Panel/Panel";
+import CustomHeaderText from "../../components/CustomHeaderText/CustomHeaderText";
+import CustomTextInput from "../../components/CustomTextInput/CustomTextInput";
+import CustomButton from "../../components/CustomButton/CustomButton";
+import BackgroundImage from "../../components/BackgroundImage/BackgroundImage";
+import Logo from "../../components/Logo/Logo";
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 
 @inject("mercuryStore")
 @observer
-export default class LoginForm extends Component {
+export default class LoginScreen extends Component {
   constructor(props) {
     super(props);
 
@@ -60,7 +51,7 @@ export default class LoginForm extends Component {
   render() {
     const { mercuryStore, ...otherProps } = this.props;
     return (
-      <HomeScreen>
+      <BackgroundImage>
         <Logo />
         <Panel>
           <CustomHeaderText>Log In</CustomHeaderText>
@@ -84,9 +75,9 @@ export default class LoginForm extends Component {
           {this.state.error && <ErrorMessage>{this.state.error}</ErrorMessage>}
           <CustomButton onPress={this.handleSubmit}>Login</CustomButton>
         </Panel>
-      </HomeScreen>
+      </BackgroundImage>
     );
   }
 }
 
-AppRegistry.registerComponent("LoginForm", () => LoginForm);
+AppRegistry.registerComponent("LoginScreen", () => LoginScreen);

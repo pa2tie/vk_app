@@ -1,15 +1,5 @@
 import React, { Component } from "react";
-import {
-  AppRegistry,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ImageBackground,
-  TouchableOpacity,
-  Button
-} from "react-native";
+import { AppRegistry, Text, View, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 
 const StyledText = styled.Text`

@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-import {
-  AppRegistry,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ImageBackground,
-  TextInput
-} from "react-native";
+import { AppRegistry } from "react-native";
 import styled, { css } from "styled-components/native";
 
 const Container = styled.View`
