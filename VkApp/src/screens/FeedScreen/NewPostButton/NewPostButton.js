@@ -1,13 +1,6 @@
 import React, { Component } from "react";
-import {
-  AppRegistry,
-  Text,
-  Image,
-  TouchableOpacity,
-  TouchableHighlight,
-  View,
-  StyleSheet
-} from "react-native";
+import { AppRegistry, Text, Image, View, StyleSheet } from "react-native";
+import VkTouchableHighlight from "../../../components/VkTouchableHighlight/VkTouchableHighlight";
 
 const styles = StyleSheet.create({
   image: {
@@ -31,7 +24,7 @@ export default class NewPostButton extends Component {
   render() {
     const { imageUrl, ...otherProps } = this.props;
     return (
-      <TouchableHighlight
+      <VkTouchableHighlight
         {...otherProps}
         onPress={() => {
           this.props.navigation.navigate("NewPost");
@@ -41,7 +34,7 @@ export default class NewPostButton extends Component {
           <Image style={styles.image} source={{ uri: imageUrl }} />
           <Text style={styles.text}>What's new?</Text>
         </View>
-      </TouchableHighlight>
+      </VkTouchableHighlight>
     );
   }
 }

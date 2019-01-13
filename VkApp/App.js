@@ -17,14 +17,6 @@ import stores from "./src/stores";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Provider } from "mobx-react";
 
-const Navigator = createStackNavigator(
-  {
-    Login: { screen: LoginScreen },
-    Profile: { screen: ProfileScreen }
-  },
-  { initialRouteName: "Login", headerMode: "none" }
-);
-
 const FeedRootNavigator = createStackNavigator({
   Feed: FeedScreen
 });

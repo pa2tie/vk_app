@@ -1,14 +1,6 @@
 import React, { PureComponent } from "react";
-import {
-  AppRegistry,
-  Text,
-  Image,
-  TouchableOpacity,
-  TouchableHighlight,
-  View,
-  StyleSheet
-} from "react-native";
-import StoryScreen from "../../StoryScreen";
+import { AppRegistry, Text, Image, View, StyleSheet } from "react-native";
+import VkTouchableHighlight from "../../../components/VkTouchableHighlight/VkTouchableHighlight";
 
 const styles = StyleSheet.create({
   item: {
@@ -39,7 +31,7 @@ export default class StoriesItem extends PureComponent {
   render() {
     const { title, image, ...otherProps } = this.props;
     return (
-      <TouchableHighlight
+      <VkTouchableHighlight
         style={styles.item}
         onPress={() => {
           this.props.navigation.navigate("Story");
@@ -50,7 +42,7 @@ export default class StoriesItem extends PureComponent {
           <Image style={styles.itemImage} source={{ uri: image }} />
           <Text style={styles.storiesTitle}>{title}</Text>
         </View>
-      </TouchableHighlight>
+      </VkTouchableHighlight>
     );
   }
 }

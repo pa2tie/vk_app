@@ -4,10 +4,19 @@ import {
   Text,
   View,
   Modal,
-  TouchableHighlight
+  TextInput,
+  KeyboardAvoidingView
 } from "react-native";
 
 export default class NewPostScreen extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      placeholder: "What's new?",
+      text: ""
+    };
+  }
   render() {
     return (
       <Modal
@@ -18,10 +27,15 @@ export default class NewPostScreen extends Component {
           this.props.navigation.goBack();
         }}
       >
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          <Text>New post</Text>
+        <View>
+          <KeyboardAvoidingView behavior="padding" enabled>
+            <TextInput
+              multiline={true}
+              numberOfLines={4}
+              onChangeText={text => this.setState({ text })}
+              placeholder={this.state.placeholder}
+            />
+          </KeyboardAvoidingView>
         </View>
       </Modal>
     );

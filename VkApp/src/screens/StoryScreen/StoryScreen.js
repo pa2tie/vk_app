@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  AppRegistry,
-  Text,
-  View,
-  Modal,
-  TouchableHighlight
-} from "react-native";
+import { AppRegistry, Text, View, Modal } from "react-native";
 
 export default class StoryScreen extends Component {
   render() {
