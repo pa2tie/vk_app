@@ -3,8 +3,10 @@ import { Platform, StyleSheet, Text, View } from "react-native";
 import {
   createStackNavigator,
   createAppContainer,
-  createBottomTabNavigator
+  createBottomTabNavigator,
+  createSwitchNavigator
 } from "react-navigation";
+import AuthLoadingScreen from "./src/screens/AuthLoadingScreen";
 import LoginScreen from "./src/screens/LoginScreen/LoginScreen";
 import ProfileScreen from "./src/screens/ProfileScreen/ProfileScreen";
 import FeedScreen from "./src/screens/FeedScreen";
@@ -17,14 +19,12 @@ import stores from "./src/stores";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Provider } from "mobx-react";
 
-const FeedRootNavigator = createStackNavigator({
-  Feed: FeedScreen
-});
-
 const FeedNavigator = createStackNavigator(
   {
     FeedRoot: {
-      screen: FeedRootNavigator
+      screen: createStackNavigator({
+        Feed: FeedScreen
+      })
     },
     NewPost: {
       screen: NewPostScreen
@@ -93,7 +93,24 @@ const BottomTabNavigator = createBottomTabNavigator(
   }
 );
 
-const AppNavigator = createAppContainer(BottomTabNavigator);
+const AuthStack = createStackNavigator(
+  { Login: LoginScreen },
+  { headerMode: "none" }
+);
+
+const AppNavigator = createAppContainer(
+  createSwitchNavigator(
+    {
+      AuthLoading: AuthLoadingScreen,
+      App: BottomTabNavigator,
+      Auth: AuthStack
+    },
+    {
+      headerMode: "none",
+      initialRouteName: "AuthLoading"
+    }
+  )
+);
 
 export default class App extends Component {
   render() {

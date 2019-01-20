@@ -9,7 +9,7 @@ import BackgroundImage from "../../components/BackgroundImage/BackgroundImage";
 import Logo from "../../components/Logo/Logo";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 
-@inject("mercuryStore")
+@inject("vkStore")
 @observer
 export default class LoginScreen extends Component {
   constructor(props) {
@@ -23,14 +23,12 @@ export default class LoginScreen extends Component {
 
   handleSubmit = async e => {
     try {
-      const result = await this.props.mercuryStore.loginRequest();
-      this.props.mercuryStore.setUserName(result["name"]);
-      this.props.mercuryStore.setPhotoUrl(result["photoUrl"]);
+      await this.props.vkStore.login();
       this.setState({
         error: null,
         validEmail: true
       });
-      this.props.navigation.navigate("Profile");
+      this.props.navigation.navigate("App");
     } catch (response) {
       switch (response.status) {
         case 400:
@@ -49,7 +47,7 @@ export default class LoginScreen extends Component {
   };
 
   render() {
-    const { mercuryStore, ...otherProps } = this.props;
+    const { vkStore, ...otherProps } = this.props;
     return (
       <BackgroundImage>
         <Logo />
@@ -57,18 +55,18 @@ export default class LoginScreen extends Component {
           <CustomHeaderText>Log In</CustomHeaderText>
           <CustomTextInput
             onChangeText={text => {
-              mercuryStore.setEmail(text);
+              vkStore.setUsername(text);
               this.setState({
                 validEmail: true
               });
             }}
-            value={mercuryStore.email}
+            value={vkStore.username}
             placeholder="E-Mail"
             valid={this.state.validEmail}
           />
           <CustomTextInput
-            onChangeText={text => mercuryStore.setPassword(text)}
-            value={mercuryStore.password}
+            onChangeText={text => vkStore.setPassword(text)}
+            value={vkStore.password}
             placeholder="Password"
             secureTextEntry
           />
