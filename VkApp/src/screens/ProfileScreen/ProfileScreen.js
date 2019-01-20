@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AppRegistry, Image } from "react-native";
+import { AppRegistry, AsyncStorage } from "react-native";
 import { inject, observer } from "mobx-react";
 import styled from "styled-components/native";
 import Panel from "../../components/Panel/Panel";
@@ -8,28 +8,20 @@ import CustomButton from "../../components/CustomButton/CustomButton";
 import BackgroundImage from "../../components/BackgroundImage/BackgroundImage";
 import Logo from "../../components/Logo/Logo";
 
-const RoundImage = styled.Image`
-  border-radius: 500;
-  width: 86px;
-  height: 86px;
-  margin-bottom: 24px;
-`;
-
-@inject("mercuryStore")
+@inject("vkStore")
 @observer
 export default class ProfileScreen extends Component {
-  logout = e => {
+  logout = async e => {
     e.preventDefault();
-    this.props.navigation.navigate("Login");
+    await AsyncStorage.clear();
+    this.props.navigation.navigate("Auth");
   };
   render() {
-    const { mercuryStore, ...otherProps } = this.props;
+    const { vkStore, ...otherProps } = this.props;
     return (
       <BackgroundImage>
         <Logo />
         <Panel>
-          <RoundImage source={{ uri: mercuryStore.photoUrl }} />
-          <CustomHeaderText>{mercuryStore.userName}</CustomHeaderText>
           <CustomButton onPress={this.logout}>Logout</CustomButton>
         </Panel>
       </BackgroundImage>

@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 
 export default class StoriesItem extends PureComponent {
   render() {
-    const { title, image, ...otherProps } = this.props;
+    const { title, avatar, ...otherProps } = this.props;
     return (
       <VkTouchableHighlight
         style={styles.item}
@@ -39,8 +39,10 @@ export default class StoriesItem extends PureComponent {
         {...otherProps}
       >
         <View style={styles.itemView}>
-          <Image style={styles.itemImage} source={{ uri: image }} />
-          <Text style={styles.storiesTitle}>{title}</Text>
+          <Image style={styles.itemImage} source={{ uri: avatar }} />
+          <Text numberOfLines={1} style={styles.storiesTitle}>
+            {title}
+          </Text>
         </View>
       </VkTouchableHighlight>
     );

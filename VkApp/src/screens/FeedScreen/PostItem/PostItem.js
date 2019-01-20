@@ -58,10 +58,6 @@ export default class PostItem extends Component {
     super(props);
 
     this.state = {
-      likesCount: 533,
-      commentsCount: 40,
-      repostsCount: 211,
-      viewsCount: 988,
       isLiked: false
     };
   }
@@ -72,7 +68,18 @@ export default class PostItem extends Component {
     });
   };
   render() {
-    const { avatar, title, time, content, ...otherProps } = this.props;
+    const {
+      avatar,
+      title,
+      date,
+      text,
+      content,
+      likes,
+      comments,
+      reposts,
+      views,
+      ...otherProps
+    } = this.props;
     return (
       <VkTouchableHighlight {...otherProps}>
         <View style={styles.item}>
@@ -82,7 +89,7 @@ export default class PostItem extends Component {
               <Text numberOfLines={1} style={styles.headerTitle}>
                 {title}
               </Text>
-              <Text>{time}</Text>
+              <Text>{new Date(date * 1000).toDateString()}</Text>
             </View>
             <Ionicons
               name="ios-more"
@@ -94,8 +101,8 @@ export default class PostItem extends Component {
             />
           </View>
           <View style={styles.content}>
-            <Text style={styles.contentText}>{content.text}</Text>
-            {content.media && (
+            <Text style={styles.contentText}>{text}</Text>
+            {content && (
               <Image
                 style={styles.contentImage}
                 source={{ uri: content.image }}
@@ -111,7 +118,7 @@ export default class PostItem extends Component {
                   size={30}
                   style={styles.footerItemIcon}
                 />
-                <Text>{this.state.likesCount}</Text>
+                <Text>{likes}</Text>
               </View>
             </VkTouchableHighlight>
             <VkTouchableHighlight>
@@ -122,7 +129,7 @@ export default class PostItem extends Component {
                   color="#8E8E93"
                   size={30}
                 />
-                <Text>{this.state.commentsCount}</Text>
+                <Text>{comments}</Text>
               </View>
             </VkTouchableHighlight>
             <VkTouchableHighlight>
@@ -133,7 +140,7 @@ export default class PostItem extends Component {
                   color="#8E8E93"
                   size={30}
                 />
-                <Text>{this.state.repostsCount}</Text>
+                <Text>{reposts}</Text>
               </View>
             </VkTouchableHighlight>
             <View style={styles.footerItem}>
@@ -143,7 +150,7 @@ export default class PostItem extends Component {
                 color="#8E8E93"
                 size={20}
               />
-              <Text>{this.state.viewsCount}</Text>
+              <Text>{views}</Text>
             </View>
           </View>
         </View>

@@ -1,20 +1,11 @@
 import React, { Component } from "react";
-import {
-  AppRegistry,
-  Text,
-  View,
-  Button,
-  StyleSheet,
-  FlatList,
-  Image,
-  ViewPagerAndroid
-} from "react-native";
+import { AppRegistry, View, StyleSheet, FlatList } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import StoriesItem from "./StoriesItem/StoriesItem";
 import NewPostButton from "./NewPostButton/NewPostButton";
 import PostItem from "./PostItem/PostItem";
-import CameraScreen from "../CameraScreen";
 import VkTouchableHighlight from "../../components/VkTouchableHighlight/VkTouchableHighlight";
+import { inject, observer } from "mobx-react";
 
 const styles = StyleSheet.create({
   feed: {
@@ -35,22 +26,24 @@ const styles = StyleSheet.create({
   }
 });
 
+@inject("vkStore")
+@observer
 export default class FeedScreen extends Component {
   constructor(props) {
     super(props);
-    this.viewPager = "";
     this.state = {
-      refreshing: false
+      refreshing: false,
+      newsFeed: {},
+      stories: {}
     };
   }
 
   componentDidMount() {
-    this.props.navigation.setParams({
-      viewPager: this.viewPager
-    });
+    this.handleRefresh();
   }
 
   static navigationOptions = ({ navigation }) => {
+    console.log(navigation.state.routeName);
     return {
       title: "News",
       headerLeft: (
@@ -61,7 +54,7 @@ export default class FeedScreen extends Component {
             color="#fff"
             size={40}
             onPress={() => {
-              navigation.state.params.viewPager.setPage(0);
+              navigation.navigate("Camera");
             }}
           />
         </VkTouchableHighlight>
@@ -87,15 +80,12 @@ export default class FeedScreen extends Component {
         <FlatList
           style={styles.storiesList}
           horizontal
-          data={[
-            { title: "videosos", image: "url" },
-            { title: "9GAG", image: "url" }
-          ]}
+          data={this.state.stories.groups}
           renderItem={({ item }) => (
             <StoriesItem
               navigation={this.props.navigation}
-              title={item.title}
-              imageUrl={item.image}
+              title={item.name}
+              avatar={item.photo200}
             />
           )}
         />
@@ -108,77 +98,64 @@ export default class FeedScreen extends Component {
       {
         refreshing: true
       },
-      () => {
-        setTimeout(
-          () =>
-            this.setState({
-              refreshing: false
-            }),
-          2000
-        );
+      async () => {
+        await this.getNewsFeed();
+        await this.getStories();
+        this.setState({
+          refreshing: false
+        });
       }
     );
   };
 
+  getNewsFeed = async () => {
+    try {
+      this.setState({
+        newsFeed: await this.props.vkStore.getNewsFeed()
+      });
+      console.log("news", this.state.newsFeed);
+    } catch (error) {
+      console.log("newsError", error);
+    }
+  };
+
+  getStories = async () => {
+    try {
+      this.setState({
+        stories: await this.props.vkStore.getStories()
+      });
+      console.log("stories", this.state.stories);
+    } catch (error) {
+      console.log("storiesError", error);
+    }
+  };
+
   render() {
     return (
-      <ViewPagerAndroid
-        ref={viewPager => {
-          this.viewPager = viewPager;
-        }}
-        style={{ flex: 1 }}
-        initialPage={1}
-      >
-        <View key="0">
-          <CameraScreen />
-        </View>
-        <View style={styles.feed} key="1">
-          <FlatList
-            refreshing={this.state.refreshing}
-            onRefresh={this.handleRefresh}
-            ListHeaderComponent={this.renderHeader}
-            data={[
-              {
-                avatar: "url",
-                title: "SMMщики",
-                time: "today",
-                content: {
-                  text: "Кризис поколения Y"
-                }
-              },
-              {
-                avatar: "url",
-                title: "batya",
-                time: "today at 13:19",
-                content: {
-                  text:
-                    "Создатель платформера Celeste поделился подробностями грядущего дополнения:",
-                  media: "url"
-                }
-              },
-              {
-                avatar: "url",
-                title: "For Web - фронтенд, дизайн, программирование",
-                time: "11 January at 19:51",
-                content: {
-                  text:
-                    "Градиентная рамка на CSS: обзор способов реализации от Криса Койера https://css-tricks.com"
-                }
-              }
-            ]}
-            renderItem={({ item }) => (
+      <View style={styles.feed}>
+        <FlatList
+          refreshing={this.state.refreshing}
+          onRefresh={this.handleRefresh}
+          ListHeaderComponent={this.renderHeader}
+          data={this.state.newsFeed.items}
+          renderItem={({ item, index }) =>
+            !!item && (
               <PostItem
                 style={styles.postItem}
                 navigation={this.props.navigation}
-                title={item.title}
-                avatar={item.avatar}
-                time={item.time}
-                content={item.content}
+                title={this.state.newsFeed.groups[index].name}
+                avatar={this.state.newsFeed.groups[index].photo200}
+                date={item.date}
+                text={item.text}
+                likes={item.likes.count}
+                comments={item.comments.count}
+                reposts={item.reposts.count}
+                views={item.views.count}
               />
-            )}
-          />
-        </View>
-      </ViewPagerAndroid>
+            )
+          }
+        />
+      </View>
     );
   }
 }

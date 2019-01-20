@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
 import {
   createStackNavigator,
   createAppContainer,
   createBottomTabNavigator,
-  createSwitchNavigator
+  createSwitchNavigator,
+  createMaterialTopTabNavigator
 } from "react-navigation";
 import AuthLoadingScreen from "./src/screens/AuthLoadingScreen";
 import LoginScreen from "./src/screens/LoginScreen/LoginScreen";
@@ -15,6 +15,7 @@ import MessagesScreen from "./src/screens/MessagesScreen";
 import NotificationsScreen from "./src/screens/NotificationsScreen";
 import NewPostScreen from "./src/screens/NewPostScreen";
 import StoryScreen from "./src/screens/StoryScreen";
+import CameraScreen from "./src/screens/CameraScreen";
 import stores from "./src/stores";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Provider } from "mobx-react";
@@ -98,11 +99,35 @@ const AuthStack = createStackNavigator(
   { headerMode: "none" }
 );
 
+const AppStack = createMaterialTopTabNavigator(
+  {
+    Camera: {
+      screen: CameraScreen,
+      navigationOptions: {
+        tabBarVisible: false,
+        swipeEnabled: true
+      }
+    },
+    Tabs: {
+      screen: BottomTabNavigator,
+      navigationOptions: ({ navigation }) => ({
+        tabBarVisible: false,
+        swipeEnabled: navigation.state.index === 0 ? true : false
+      })
+    }
+  },
+  {
+    headerMode: "none",
+    initialRouteName: "Tabs",
+    animationEnabled: true
+  }
+);
+
 const AppNavigator = createAppContainer(
   createSwitchNavigator(
     {
       AuthLoading: AuthLoadingScreen,
-      App: BottomTabNavigator,
+      App: AppStack,
       Auth: AuthStack
     },
     {

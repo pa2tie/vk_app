@@ -1,5 +1,5 @@
 import { observable, action } from "mobx";
-import * as api from "../services/api";
+import * as api from "../services/vkApi";
 
 export default class VkStore {
   @observable username = "";
@@ -21,6 +21,12 @@ export default class VkStore {
   }
 
   async getNewsFeed() {
-    return await api.fetchNewsFeed();
+    let response = await api.fetchNewsFeed();
+    return response.response;
+  }
+
+  async getStories() {
+    let response = await api.fetchStories();
+    return response.response;
   }
 }
