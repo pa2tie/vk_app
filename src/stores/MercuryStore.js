@@ -1,5 +1,4 @@
 import { observable, action } from "mobx";
-import { postRequest } from "../services/HttpService";
 
 export default class MercuryStore {
   @observable email = "";
@@ -29,6 +28,5 @@ export default class MercuryStore {
       email: this.email,
       password: this.password
     };
-    return postRequest({ url, payload });
   }
 }
