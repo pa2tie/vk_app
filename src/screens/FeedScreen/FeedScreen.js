@@ -80,7 +80,7 @@ export default class FeedScreen extends Component {
         <FlatList
           style={styles.storiesList}
           horizontal
-          data={this.state.stories.groups}
+          data={this.props.vkStore.stories}
           renderItem={({ item }) => (
             <StoriesItem
               navigation={this.props.navigation}
@@ -99,8 +99,8 @@ export default class FeedScreen extends Component {
         refreshing: true
       },
       async () => {
-        await this.getNewsFeed();
-        await this.getStories();
+        await this.loadNewsFeed();
+        await this.loadStories();
         this.setState({
           refreshing: false
         });
@@ -108,10 +108,10 @@ export default class FeedScreen extends Component {
     );
   };
 
-  getNewsFeed = async () => {
+  loadNewsFeed = async () => {
     try {
       this.setState({
-        newsFeed: await this.props.vkStore.getNewsFeed()
+        newsFeed: await this.props.vkStore.loadNewsFeed()
       });
       console.log("news", this.state.newsFeed);
     } catch (error) {
@@ -119,12 +119,10 @@ export default class FeedScreen extends Component {
     }
   };
 
-  getStories = async () => {
+  loadStories = async () => {
     try {
-      this.setState({
-        stories: await this.props.vkStore.getStories()
-      });
-      console.log("stories", this.state.stories);
+      this.props.vkStore.setStories(await this.props.vkStore.loadStories());
+      console.log("stories", this.props.vkStore.stories);
     } catch (error) {
       console.log("storiesError", error);
     }

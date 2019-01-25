@@ -1,9 +1,11 @@
 import { observable, action } from "mobx";
 import * as api from "../services/vkApi";
+import { Stories } from "../models/Stories";
 
 export default class VkStore {
   @observable username = "";
   @observable password = "";
+  @observable stories = Stories.create();
 
   @action setUsername(username) {
     this.username = username;
@@ -13,6 +15,12 @@ export default class VkStore {
     this.password = password;
   }
 
+  @action setStories(stories) {
+    this.stories = Stories.create({
+      stories: stories
+    });
+  }
+
   async login() {
     await api.login({
       username: this.username,
@@ -20,13 +28,13 @@ export default class VkStore {
     });
   }
 
-  async getNewsFeed() {
+  async loadNewsFeed() {
     let response = await api.fetchNewsFeed();
     return response.response;
   }
 
-  async getStories() {
+  async loadStories() {
     let response = await api.fetchStories();
-    return response.response;
+    this.setStories(response.response);
   }
 }
